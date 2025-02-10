@@ -48,8 +48,8 @@ for i in range(len(x_coords)):
 # Plot using pcolormesh
 plt.figure(figsize=(10, 5))
 plt.pcolormesh(X, Y, u_speeds_grid, cmap='jet', shading='auto')
-plt.colorbar(label='u_speed (m/s)')
-plt.title('Horizontal Velocity (u_speed)')
+plt.colorbar(label='U')
+plt.title('Horizontální rychlost U')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.gca().set_aspect('equal', adjustable='box')  # Ensure axes are proportional
@@ -68,8 +68,8 @@ for i in range(len(x_coords)):
 # Plot using pcolormesh
 plt.figure(figsize=(10, 5))
 plt.pcolormesh(X, Y, v_speeds_grid, cmap='jet', shading='auto')
-plt.colorbar(label='u_speed (m/s)')
-plt.title('Vertical Velocity (u_speed)')
+plt.colorbar(label='V')
+plt.title('Vertikální rychlost V')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.gca().set_aspect('equal', adjustable='box')  # Ensure axes are proportional
@@ -87,8 +87,8 @@ for i in range(len(x_coords)):
 # Plot using pcolormesh
 plt.figure(figsize=(10, 5))
 plt.pcolormesh(X, Y, pressures_grid, cmap='jet', shading='auto')
-plt.colorbar(label='Pressure')
-plt.title('Pressure')
+plt.colorbar(label='P')
+plt.title('Tlak P')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.gca().set_aspect('equal', adjustable='box')  # Ensure axes are proportional
@@ -109,19 +109,63 @@ iterations = np.arange(1, data.shape[0] + 1)
 
 # Plot the variables
 plt.figure(figsize=(10, 6))
-plt.plot(iterations, var1, label='P Residue')
-plt.plot(iterations, var2, label='U Residue')
-plt.plot(iterations, var3, label='V Residue')
+plt.plot(iterations, var1, label='P Reziduum', color="red")
+plt.plot(iterations, var2, label='U Reziduum', color="blue")
+plt.plot(iterations, var3, label='V Reziduum', color="green")
 
 # Set y-axis to logarithmic scale
 plt.yscale('log')
+plt.xlim(0, 300000)
 
 # Labeling the plot
-plt.xlabel('Iteration Number')
-plt.ylabel('Residue')
-plt.title('Residue values')
+plt.xlabel('Iterace')
+plt.ylabel('Reziduum')
+plt.title('Hodnota reziduí')
 plt.legend()
 plt.grid(True, which='both', linestyle='--', linewidth=0.5)
 
 # Display the plot
 plt.show()
+
+
+
+
+
+# Define the function u = f(x)
+def f(x):
+    deltaP = 1.6
+    mu = 0.63
+    L = 2
+    H = 1
+    return -deltaP/(2*mu*L)*(x**2-H*x)  # Example function
+
+
+# Generate y values (ranging from 0 to 1)
+y_values = np.linspace(0, 1, 100)
+
+# Calculate corresponding u values using the function
+u_values = f(y_values)
+
+# Create the plot
+plt.plot(u_values, y_values, linestyle='--', color='blue', label="teor." )
+#
+plt.scatter(u_speeds[-1, :], y_vals, color='red', marker='x', label="numer.")
+
+plt.xlim(-0.005, 0.16)
+
+# Label the axes
+plt.xlabel('Horizontální rychlost U')
+plt.ylabel('y')
+
+# Show the plot
+plt.title('Porovnání teoretického a numerického řešení')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+
+
+
+
